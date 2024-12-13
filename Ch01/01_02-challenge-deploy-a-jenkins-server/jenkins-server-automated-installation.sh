@@ -48,14 +48,16 @@ cat platform-plugins.json |jq| grep "name" |cut -d\" -f 4 | tee suggested-plugin
 
 ## download the plugin installation tool
 echo "# $(date) Download the plugin installation tool"
-wget https://github.com/jenkinsci/plugin-installation-manager-tool/releases/download/2.12.3/jenkins-plugin-manager-2.12.3.jar
+wget https://lnkd.in/ehrZtPTV
 
 ## run the plugin installation tool
 echo "# $(date) Run the plugin installation tool..."
-/usr/bin/java -jar ./jenkins-plugin-manager-2.12.3.jar \
-	--verbose \
-    --plugin-download-directory=/var/lib/jenkins/plugins \
-    --plugin-file=./suggested-plugins.txt >> /var/log/plugin-installation.log
+/usr/bin/java -jar ./jenkins-plugin-manager-*.jar \
+--war /usr/share/java/jenkins.war \
+--plugin-download-directory /var/lib/jenkins/plugins \
+--plugin-file ./suggested-plugins.txt \
+--verbose >> /var/log/plugin-installation.log
+	
 
 ## because the plugin installation tool runs as root, ownership on
 ## the plugin dir needs to be changed back to jenkins:jenkins
