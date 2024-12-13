@@ -22,13 +22,13 @@ apt update
 apt-get -y upgrade
 
 apt-get -y install \
-    openjdk-11-jdk \
+    openjdk-17-jdk \
     nginx \
     ca-certificates \
     curl \
     gnupg \
-    lsb-release
-
+    lsb-release \
+    jq
 apt-get -y install jenkins
 
 # configure jenkins
@@ -44,7 +44,7 @@ wget https://raw.githubusercontent.com/jenkinsci/jenkins/master/core/src/main/re
 
 ## get the suggested plugins
 echo "# $(date) Use the keyword 'suggest' to find the suggested plugins in the list..."
-grep suggest platform-plugins.json | cut -d\" -f 4 | tee suggested-plugins.txt
+cat platform-plugins.json |jq| grep "name" |cut -d\" -f 4 | tee suggested-plugins.txt
 
 ## download the plugin installation tool
 echo "# $(date) Download the plugin installation tool"
